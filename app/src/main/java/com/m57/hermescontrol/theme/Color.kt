@@ -13,9 +13,9 @@ import androidx.compose.ui.graphics.Color
 
 // ── Brand: Voltage Purple (primary) ──────────────────────────────────────
 
-val HermesPurple = Color(0xFF7C5CFF)
-val HermesPurpleLight = Color(0xFFAC93FF)
-val HermesPurpleDark = Color(0xFF5A3FE0)
+val HermesPurple = Color(0xFF7B61FF)
+val HermesPurpleLight = Color(0xFFA891FF)
+val HermesPurpleDark = Color(0xFF6A52E0)
 val HermesPurpleContainer = Color(0xFF2B2159)
 val HermesPurpleOnContainer = Color(0xFFD9CCFF)
 

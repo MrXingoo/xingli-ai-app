@@ -16,7 +16,7 @@ android {
     }
     compileSdk = 36
     defaultConfig {
-        applicationId = "com.m57.hermescontrol"
+        applicationId = "com.mgaoxin.xinglistudio.ai"
         minSdk = 26
         targetSdk = 36
         // Version overrides passed from CI via -PversionName / -PversionCode
