@@ -470,17 +470,17 @@ private fun McpStep(
                                     fontWeight = FontWeight.Bold,
                                 )
                                 Text(
-                                    text = "Transport: ${server.transport.uppercase()}",
+                                    text = "传输: ${server.transport.uppercase()}",
                                     style = MaterialTheme.typography.bodySmall,
                                 )
                                 if (server.transport == "sse") {
                                     Text(
-                                        text = "URL: ${server.url}",
+                                        text = "地址: ${server.url}",
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 } else {
                                     Text(
-                                        text = "Command: ${server.command}",
+                                        text = "命令: ${server.command}",
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }

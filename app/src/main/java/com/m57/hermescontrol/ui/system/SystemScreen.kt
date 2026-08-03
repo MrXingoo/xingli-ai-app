@@ -765,7 +765,7 @@ private fun LazyListScope.selfImprovementSection(
 
                     Spacer(modifier = Modifier.height(spacing.md))
                     Text(
-                        text = "Recent Agent Self-Improvement Events",
+                        text = "最近 Agent 自我改进事件",
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,

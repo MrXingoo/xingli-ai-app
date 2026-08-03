@@ -120,7 +120,7 @@ fun ReasoningCard(
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    text = "Reasoning · $stepCount steps",
+                    text = "推理 · $stepCount 步",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f),

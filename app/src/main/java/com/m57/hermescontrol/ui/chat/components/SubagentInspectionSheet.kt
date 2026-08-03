@@ -78,7 +78,7 @@ fun SubagentInspectionSheet(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Task & Plan Inspection",
+                        text = "任务与计划检查",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                     )
@@ -96,7 +96,7 @@ fun SubagentInspectionSheet(
 
             if (indicators.isEmpty() && todos.isEmpty()) {
                 Text(
-                    text = "No active tasks or plan items.",
+                    text = "没有活跃的任务或计划项。",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(vertical = 16.dp),
@@ -120,7 +120,7 @@ fun SubagentInspectionSheet(
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
-                                    text = "AGENT PLAN",
+                                    text = "AGENT 计划",
                                     style = MaterialTheme.typography.labelMedium,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.primary,
@@ -150,7 +150,7 @@ fun SubagentInspectionSheet(
                                     )
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
-                                        text = "SUBAGENTS",
+                                        text = "子代理",
                                         style = MaterialTheme.typography.labelMedium,
                                         fontWeight = FontWeight.Bold,
                                         color = MaterialTheme.colorScheme.primary,
@@ -260,7 +260,7 @@ private fun InspectionItemCard(indicator: SubagentIndicator) {
                     verticalArrangement = Arrangement.spacedBy(2.dp),
                 ) {
                     Text(
-                        text = "LIVE TRANSCRIPT",
+                        text = "实时记录",
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.outline,
