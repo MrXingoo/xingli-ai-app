@@ -69,6 +69,7 @@
 
     <!-- Screen Names -->
     <string name="screen_chat">Chat</string>
+    <string name="screen_alist">Study Room</string>
     <string name="screen_skills">Skills</string>
     <string name="screen_cron">Cron</string>
     <string name="screen_system">System</string>

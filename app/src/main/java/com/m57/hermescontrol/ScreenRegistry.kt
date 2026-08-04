@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation3.runtime.NavKey
 import com.m57.hermescontrol.ui.achievements.AchievementsScreen as AchievementsScreenContent
+import com.m57.hermescontrol.ui.alist.AlistScreen as AlistScreenContent
 import com.m57.hermescontrol.ui.analytics.AnalyticsScreen as AnalyticsScreenContent
 import com.m57.hermescontrol.ui.billing.BillingScreen as BillingScreenContent
 import com.m57.hermescontrol.ui.channels.ChannelsScreen as ChannelsScreenContent
@@ -78,6 +79,12 @@ object ScreenRegistry {
                 Icons.AutoMirrored.Filled.Chat,
                 DrawerSection.CONVERSE,
             ) { sessionId, openDrawer -> ChatScreenContent(onOpenDrawer = openDrawer, sessionId = sessionId) },
+            ScreenDefinition(
+                AlistScreen,
+                R.string.screen_alist,
+                Icons.Filled.Folder,
+                DrawerSection.CONVERSE,
+            ) { sessionId, openDrawer -> AlistScreenContent(onOpenDrawer = openDrawer) },
             ScreenDefinition(
                 HistoryScreen,
                 R.string.screen_history,

@@ -56,6 +56,7 @@
     <string name="nav_drawer_section_configure">配置</string>
     <string name="nav_drawer_section_inspect">检查</string>
     <string name="screen_chat">对话</string>
+    <string name="screen_alist">书房</string>
     <string name="screen_skills">技能</string>
     <string name="screen_cron">定时任务</string>
     <string name="screen_system">系统</string>
