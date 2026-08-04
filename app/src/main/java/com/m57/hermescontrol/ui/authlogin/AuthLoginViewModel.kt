@@ -196,8 +196,14 @@ class AuthLoginViewModel(
         providers: List<String>,
     ): DashboardAuthMode =
         if (!authRequired) {
-            // Refined by the caller once it knows whether the SPA embedded a token.
-            DashboardAuthMode.ALL
+            // 反代场景：dashboard 绑 loopback 报 auth_required=false，但实际后端有
+            // basic 认证（通过 Caddy 公网访问时仍会 401）。此时必须优先用密码登录。
+            if (providers.contains("basic")) {
+                DashboardAuthMode.BASIC_AUTH
+            } else {
+                // Refined by the caller once it knows whether the SPA embedded a token.
+                DashboardAuthMode.ALL
+            }
         } else {
             when {
                 providers.contains("oauth") -> DashboardAuthMode.OAUTH
@@ -249,6 +255,11 @@ class AuthLoginViewModel(
 
         // No gate (loopback / --insecure): token mode. Try to grab the embedded token.
         if (!authRequired) {
+            // 反代场景：dashboard 绑 loopback 报 auth_required=false，但 providers 含
+            // basic 时实际后端有认证（公网访问仍会 401）。此时不提取 token，走密码登录。
+            if (providers.contains("basic")) {
+                return ProbeResult(authMode = DashboardAuthMode.BASIC_AUTH)
+            }
             var extractedToken: String? = null
             try {
                 val spaReq =
