@@ -135,7 +135,8 @@ fun MainNavigation(sessionId: String? = null) {
     val currentTabKey = backStack.lastOrNull { it in mainTabKeys } ?: startScreen
 
     // ☰ 图标统一跳转到「配置」Tab —— 全部功能入口都收拢在那里。
-    val openDrawer: () -> Unit = { NavigationController.navigateTo(ConfigureTabScreen) }
+    // 用 navigateToTab：从子页面点 ☰ 会 pop 回配置页而不是叠一层。
+    val openDrawer: () -> Unit = { NavigationController.navigateToTab(ConfigureTabScreen) }
 
     Scaffold(
         contentWindowInsets = WindowInsets.navigationBars,
@@ -144,7 +145,7 @@ fun MainNavigation(sessionId: String? = null) {
                 MainTab.entries.forEach { tab ->
                     NavigationBarItem(
                         selected = currentTabKey == tab.key,
-                        onClick = { NavigationController.navigateTo(tab.key) },
+                        onClick = { NavigationController.navigateToTab(tab.key) },
                         icon = { Icon(tab.icon, contentDescription = null) },
                         label = { Text(stringResource(tab.labelRes)) },
                     )

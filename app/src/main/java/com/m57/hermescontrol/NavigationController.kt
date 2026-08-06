@@ -31,6 +31,26 @@ object NavigationController {
     /** Returns whether the given key is a primary top-level screen. */
     fun isPrimaryScreen(key: NavKey): Boolean = key in primaryScreens
 
+    /**
+     * Tab 切换导航：若目标 Tab 已在栈中则 pop 回它（保留栈底会话页状态，
+     * 正在生成的回复不中断），否则 push。
+     *
+     * 不能用 [navigateTo]——primary screen 的 clear() 会销毁栈底的
+     * ChatScreen，导致每次切 Tab 会话都重建（会话"断开"的观感）。
+     */
+    fun navigateToTab(key: NavKey) {
+        val stack = backStack ?: return
+        if (stack.lastOrNull() == key) return
+        val idx = stack.indexOf(key)
+        if (idx >= 0) {
+            while (stack.size > idx + 1) {
+                stack.removeAt(stack.size - 1)
+            }
+        } else {
+            stack.add(key)
+        }
+    }
+
     fun navigateTo(key: NavKey) {
         val stack = backStack ?: return
         if (stack.lastOrNull() == key) return

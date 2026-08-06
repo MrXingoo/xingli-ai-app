@@ -556,7 +556,7 @@ fun SessionsScreen(
                                                             viewModel.toggleSessionSelection(session.id)
                                                         } else {
                                                             NavigationController.pendingSessionId = session.id
-                                                            NavigationController.navigateTo(ChatScreen)
+                                                            NavigationController.navigateToTab(ChatScreen)
                                                         }
                                                     },
                                                     onCardLongClick = {
@@ -598,7 +598,7 @@ fun SessionsScreen(
                             subtitle = stringResource(R.string.history_empty_desc),
                             icon = Icons.Filled.History,
                             actionLabel = stringResource(R.string.empty_action_start_chat),
-                            onAction = { NavigationController.navigateTo(ChatScreen) },
+                            onAction = { NavigationController.navigateToTab(ChatScreen) },
                         )
                     }
 
@@ -692,7 +692,7 @@ fun SessionsScreen(
                                                 viewModel.toggleSessionSelection(session.id)
                                             } else {
                                                 NavigationController.pendingSessionId = session.id
-                                                NavigationController.navigateTo(ChatScreen)
+                                                NavigationController.navigateToTab(ChatScreen)
                                             }
                                         },
                                         onCardLongClick = {
