@@ -134,14 +134,14 @@ fun ProfilesScreen(
         } else {
             when {
                 state.isLoading && state.profiles.isEmpty() -> {
-                    SkeletonListState(modifier = Modifier.padding(paddingValues))
+                    SkeletonListState(modifier = Modifier)
                 }
 
                 state.errorMessage != null -> {
                     ErrorState(
                         message = state.errorMessage ?: "",
                         onRetry = { viewModel.loadProfiles() },
-                        modifier = Modifier.padding(paddingValues),
+                        modifier = Modifier,
                     )
                 }
 
@@ -151,7 +151,7 @@ fun ProfilesScreen(
                         subtitle = stringResource(R.string.profiles_empty_desc),
                         onAction = { viewModel.loadProfiles() },
                         actionLabel = stringResource(R.string.content_desc_refresh),
-                        modifier = Modifier.padding(paddingValues),
+                        modifier = Modifier,
                     )
                 }
 

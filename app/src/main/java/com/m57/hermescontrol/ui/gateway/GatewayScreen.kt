@@ -66,14 +66,14 @@ fun GatewayScreen(
     ) { paddingValues ->
         when {
             state.isLoading && state.status == null -> {
-                SkeletonListState(modifier = Modifier.padding(paddingValues))
+                SkeletonListState(modifier = Modifier)
             }
 
             state.errorMessage != null -> {
                 ErrorState(
                     message = state.errorMessage ?: "",
                     onRetry = { viewModel.loadStatus() },
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier,
                 )
             }
 

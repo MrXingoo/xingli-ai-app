@@ -101,14 +101,14 @@ fun ConfigScreen(
     ) { paddingValues ->
         when {
             state.isLoading && state.config == null -> {
-                SkeletonListState(modifier = Modifier.padding(paddingValues))
+                SkeletonListState(modifier = Modifier)
             }
 
             state.errorMessage != null && state.config == null -> {
                 ErrorState(
                     message = state.errorMessage ?: "",
                     onRetry = { viewModel.loadAll() },
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier,
                 )
             }
 

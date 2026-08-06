@@ -102,14 +102,14 @@ fun ProvidersScreen(
     ) { paddingValues ->
         when {
             state.isLoading && state.providers.isEmpty() -> {
-                SkeletonListState(modifier = Modifier.padding(paddingValues))
+                SkeletonListState(modifier = Modifier)
             }
 
             state.errorMessage != null && state.providers.isEmpty() -> {
                 ErrorState(
                     message = state.errorMessage ?: "",
                     onRetry = { viewModel.load() },
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier,
                 )
             }
 
@@ -117,7 +117,7 @@ fun ProvidersScreen(
                 EmptyState(
                     title = stringResource(R.string.providers_empty_title),
                     subtitle = stringResource(R.string.providers_empty_desc),
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier,
                 )
             }
 

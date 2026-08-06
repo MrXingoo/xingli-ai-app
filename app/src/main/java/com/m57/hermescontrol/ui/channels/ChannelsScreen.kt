@@ -132,14 +132,14 @@ fun ChannelsScreen(
     ) { paddingValues ->
         when {
             state.isLoading && state.platforms.isEmpty() -> {
-                SkeletonListState(modifier = Modifier.padding(paddingValues))
+                SkeletonListState(modifier = Modifier)
             }
 
             state.errorMessage != null && state.platforms.isEmpty() -> {
                 ErrorState(
                     message = state.errorMessage ?: "",
                     onRetry = { viewModel.loadPlatforms() },
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier,
                 )
             }
 
@@ -149,7 +149,7 @@ fun ChannelsScreen(
                     subtitle = stringResource(R.string.channels_empty_desc),
                     actionLabel = stringResource(R.string.empty_action_connect_telegram),
                     onAction = { viewModel.startTelegramOnboarding() },
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier,
                 )
             }
 

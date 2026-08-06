@@ -103,14 +103,14 @@ fun ModelScreen(
     ) { paddingValues ->
         when {
             state.isLoading && state.providers.isEmpty() -> {
-                SkeletonListState(modifier = Modifier.padding(paddingValues))
+                SkeletonListState(modifier = Modifier)
             }
 
             state.errorMessage != null -> {
                 ErrorState(
                     message = state.errorMessage ?: "",
                     onRetry = { viewModel.loadAll() },
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier,
                 )
             }
 
@@ -120,7 +120,7 @@ fun ModelScreen(
                     subtitle = stringResource(R.string.model_empty_desc),
                     actionLabel = stringResource(R.string.empty_action_configure_model),
                     onAction = { NavigationController.navigateTo(SettingsConnection) },
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier,
                 )
             }
 

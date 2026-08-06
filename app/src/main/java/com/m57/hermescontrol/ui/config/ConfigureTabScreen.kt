@@ -43,7 +43,7 @@ fun ConfigureTabScreenContent() {
         pinTopBar = true,
     ) { innerPadding ->
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(vertical = 8.dp),
         ) {
             DrawerSection.entries.forEach { section ->

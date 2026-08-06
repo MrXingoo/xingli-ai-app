@@ -11,7 +11,6 @@ import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,7 +52,7 @@ fun AlistScreen(onOpenDrawer: (() -> Unit)? = null) {
         title = { Text(stringResource(R.string.screen_alist)) },
         navigationIcon = onOpenDrawer?.let { NavIcon.Menu(it) },
     ) { innerPadding ->
-        Box(Modifier.fillMaxSize().padding(innerPadding)) {
+        Box(Modifier.fillMaxSize()) {
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory = { ctx ->
@@ -66,55 +65,63 @@ fun AlistScreen(onOpenDrawer: (() -> Unit)? = null) {
                         CookieManager.getInstance().setAcceptCookie(true)
                         CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
 
-                        webViewClient = object : WebViewClient() {
-                            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                                isLoading = true
-                                loadError = null
-                                canGoBack = view?.canGoBack() == true
-                            }
-
-                            override fun onPageFinished(view: WebView?, url: String?) {
-                                isLoading = false
-                                canGoBack = view?.canGoBack() == true
-                            }
-
-                            override fun doUpdateVisitedHistory(
-                                view: WebView?,
-                                url: String?,
-                                isReload: Boolean,
-                            ) {
-                                super.doUpdateVisitedHistory(view, url, isReload)
-                                canGoBack = view?.canGoBack() == true
-                            }
-
-                            override fun onReceivedError(
-                                view: WebView?,
-                                request: WebResourceRequest?,
-                                error: WebResourceError?,
-                            ) {
-                                // 主框架错误才提示（子资源错误忽略）
-                                if (request?.isForMainFrame == true) {
-                                    loadError = error?.description?.toString() ?: "加载失败"
-                                    isLoading = false
+                        webViewClient =
+                            object : WebViewClient() {
+                                override fun onPageStarted(
+                                    view: WebView?,
+                                    url: String?,
+                                    favicon: Bitmap?,
+                                ) {
+                                    isLoading = true
+                                    loadError = null
+                                    canGoBack = view?.canGoBack() == true
                                 }
-                            }
 
-                            override fun onReceivedHttpError(
-                                view: WebView?,
-                                request: WebResourceRequest?,
-                                errorResponse: WebResourceResponse?,
-                            ) {
-                                if (request?.isForMainFrame == true) {
-                                    loadError = "HTTP ${errorResponse?.statusCode ?: "?"}"
+                                override fun onPageFinished(
+                                    view: WebView?,
+                                    url: String?,
+                                ) {
                                     isLoading = false
+                                    canGoBack = view?.canGoBack() == true
                                 }
-                            }
 
-                            override fun shouldOverrideUrlLoading(
-                                view: WebView?,
-                                request: WebResourceRequest?,
-                            ): Boolean = false // 放行 SPA 内部跳转
-                        }
+                                override fun doUpdateVisitedHistory(
+                                    view: WebView?,
+                                    url: String?,
+                                    isReload: Boolean,
+                                ) {
+                                    super.doUpdateVisitedHistory(view, url, isReload)
+                                    canGoBack = view?.canGoBack() == true
+                                }
+
+                                override fun onReceivedError(
+                                    view: WebView?,
+                                    request: WebResourceRequest?,
+                                    error: WebResourceError?,
+                                ) {
+                                    // 主框架错误才提示（子资源错误忽略）
+                                    if (request?.isForMainFrame == true) {
+                                        loadError = error?.description?.toString() ?: "加载失败"
+                                        isLoading = false
+                                    }
+                                }
+
+                                override fun onReceivedHttpError(
+                                    view: WebView?,
+                                    request: WebResourceRequest?,
+                                    errorResponse: WebResourceResponse?,
+                                ) {
+                                    if (request?.isForMainFrame == true) {
+                                        loadError = "HTTP ${errorResponse?.statusCode ?: "?"}"
+                                        isLoading = false
+                                    }
+                                }
+
+                                override fun shouldOverrideUrlLoading(
+                                    view: WebView?,
+                                    request: WebResourceRequest?,
+                                ): Boolean = false // 放行 SPA 内部跳转
+                            }
 
                         // 只加载一次，避免 recomposition 重复加载
                         loadUrl("https://study.mgaoxin.com/files/")

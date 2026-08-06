@@ -131,14 +131,14 @@ fun PluginsScreen(
         ) {
             when {
                 state.isLoading && state.plugins.isEmpty() -> {
-                    SkeletonListState(modifier = Modifier.padding(paddingValues))
+                    SkeletonListState(modifier = Modifier)
                 }
 
                 state.errorMessage != null -> {
                     ErrorState(
                         message = state.errorMessage ?: "",
                         onRetry = { viewModel.loadPlugins() },
-                        modifier = Modifier.padding(paddingValues),
+                        modifier = Modifier,
                     )
                 }
 
@@ -148,7 +148,7 @@ fun PluginsScreen(
                         subtitle = stringResource(R.string.plugins_empty_desc),
                         onAction = { viewModel.loadPlugins() },
                         actionLabel = stringResource(R.string.content_desc_refresh),
-                        modifier = Modifier.padding(paddingValues),
+                        modifier = Modifier,
                     )
                 }
 
