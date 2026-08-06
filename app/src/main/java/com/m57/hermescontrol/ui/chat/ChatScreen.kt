@@ -35,6 +35,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -403,6 +404,19 @@ fun ChatScreen(
             }
         },
         actions = {
+            // 刷新按钮（设计图顶部刷新）——重新拉取当前会话 + 会话列表
+            IconButton(
+                onClick = {
+                    viewModel.refreshCurrentSession()
+                    viewModel.loadSessions()
+                },
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Refresh,
+                    contentDescription = stringResource(R.string.content_desc_refresh),
+                )
+            }
+
             // Search toggle
             IconButton(onClick = { viewModel.toggleSearch() }) {
                 Icon(

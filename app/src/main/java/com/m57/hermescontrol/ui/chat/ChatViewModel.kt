@@ -258,6 +258,12 @@ class ChatViewModel(
      */
     var initialSessionId: String? = null
 
+    /**
+     * 打开会话页且没有任何目标会话时置 true：等 SESSION_LIST 返回后自动
+     * 进入最近的一个会话（默认拉取最后一个会话）。
+     */
+    private var pendingAutoResumeLast = false
+
     init {
         refreshSettings()
 
@@ -366,7 +372,9 @@ class ChatViewModel(
                 initialSessionId = null
                 switchSession(initial)
             } else {
-                createNewSession(setLoading = false)
+                // 打开会话页默认拉取最后一个会话：等 SESSION_LIST 返回后
+                // 自动进入最近的一个（后端按最近更新降序，第一个即最新）。
+                pendingAutoResumeLast = true
             }
         }
     }
@@ -650,6 +658,16 @@ class ChatViewModel(
                         sessions = sessions,
                         chatTitle = newTitle ?: state.chatTitle,
                     )
+                }
+                // 默认拉取最后一个会话：启动时无目标会话，等列表返回后自动
+                // 进入最近的一个（后端按最近更新降序，第一个即最新）。
+                if (pendingAutoResumeLast) {
+                    pendingAutoResumeLast = false
+                    if (sessions.isNotEmpty()) {
+                        switchSession(sessions.first().id)
+                    } else {
+                        createNewSession(setLoading = false)
+                    }
                 }
             }
 

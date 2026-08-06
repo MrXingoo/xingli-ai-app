@@ -12,6 +12,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
@@ -64,6 +66,7 @@ import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
@@ -361,112 +364,129 @@ private fun AssistantBubble(
                 .padding(horizontal = 8.dp, vertical = 2.dp),
         contentAlignment = Alignment.CenterStart,
     ) {
-        Box {
-            Surface(
+        Row(verticalAlignment = Alignment.Top) {
+            // AI 头像（星黎）——设计图：左侧回复带头像
+            Image(
+                painter = painterResource(R.drawable.xingli_avatar),
+                contentDescription = null,
                 modifier =
                     Modifier
-                        .widthIn(max = maxWidth)
-                        .animateContentSize()
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 4.dp,
-                                topEnd = 16.dp,
-                                bottomStart = 16.dp,
-                                bottomEnd = 16.dp,
+                        .size(28.dp)
+                        .clip(CircleShape)
+                        .padding(top = 2.dp),
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Box(modifier = Modifier.weight(1f, fill = false)) {
+                Surface(
+                    modifier =
+                        Modifier
+                            .widthIn(max = maxWidth)
+                            .animateContentSize()
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 4.dp,
+                                    topEnd = 16.dp,
+                                    bottomStart = 16.dp,
+                                    bottomEnd = 16.dp,
+                                ),
+                            ).testTag("chat_bubble_assistant")
+                            .clickable(
+                                role = Role.Button,
+                                onClick = {
+                                    showCopyButton = true
+                                },
                             ),
-                        ).testTag("chat_bubble_assistant")
-                        .clickable(
-                            role = Role.Button,
-                            onClick = {
-                                showCopyButton = true
-                            },
+                    color = bubbleColor,
+                    border =
+                        BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
                         ),
-                color = bubbleColor,
-                border =
-                    BorderStroke(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
-                    ),
-                tonalElevation = 1.dp,
-            ) {
-                Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)) {
-                    if (message.reasoningText.isNotBlank()) {
-                        ReasoningCard(
-                            reasoningText = message.reasoningText,
-                            isStreaming = message.isStreaming,
-                        )
-                        Spacer(modifier = Modifier.height(6.dp))
-                    }
-                    SelectionContainer {
-                        MarkdownText(
-                            text = message.content,
-                            textColor = textColor,
-                            isStreaming = message.isStreaming,
-                            searchQuery = searchQuery,
-                            isCurrentMatch = isCurrentMatch,
-                            onImageClick = onImageClick,
-                        )
-                    }
-                    // Render inline attachments (mirrors UserBubble so agent-delivered
-                    // media — images, files — shows in assistant bubbles too).
-                    if (!message.attachments.isNullOrEmpty()) {
-                        Spacer(modifier = Modifier.height(6.dp))
-                        message.attachments.forEach { attachment ->
-                            InlineAttachment(
-                                attachment = attachment,
+                    tonalElevation = 1.dp,
+                ) {
+                    Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)) {
+                        if (message.reasoningText.isNotBlank()) {
+                            ReasoningCard(
+                                reasoningText = message.reasoningText,
+                                isStreaming = message.isStreaming,
+                            )
+                            Spacer(modifier = Modifier.height(6.dp))
+                        }
+                        SelectionContainer {
+                            MarkdownText(
+                                text = message.content,
                                 textColor = textColor,
-                                onOpen = { onOpenAttachment(it) },
+                                isStreaming = message.isStreaming,
+                                searchQuery = searchQuery,
+                                isCurrentMatch = isCurrentMatch,
                                 onImageClick = onImageClick,
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
                         }
-                    }
-                    if (!message.isStreaming) {
-                        Text(
-                            text = formatTimestamp(message.timestamp, DateFormat.is24HourFormat(LocalContext.current)),
-                            color = textColor.copy(alpha = 0.5f),
-                            style = MaterialTheme.typography.labelSmall,
-                            modifier =
-                                Modifier
-                                    .align(Alignment.End)
-                                    .padding(top = 4.dp),
-                        )
+                        // Render inline attachments (mirrors UserBubble so agent-delivered
+                        // media — images, files — shows in assistant bubbles too).
+                        if (!message.attachments.isNullOrEmpty()) {
+                            Spacer(modifier = Modifier.height(6.dp))
+                            message.attachments.forEach { attachment ->
+                                InlineAttachment(
+                                    attachment = attachment,
+                                    textColor = textColor,
+                                    onOpen = { onOpenAttachment(it) },
+                                    onImageClick = onImageClick,
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                            }
+                        }
+                        if (!message.isStreaming) {
+                            Text(
+                                text =
+                                    formatTimestamp(
+                                        message.timestamp,
+                                        DateFormat.is24HourFormat(LocalContext.current),
+                                    ),
+                                color = textColor.copy(alpha = 0.5f),
+                                style = MaterialTheme.typography.labelSmall,
+                                modifier =
+                                    Modifier
+                                        .align(Alignment.End)
+                                        .padding(top = 4.dp),
+                            )
+                        }
                     }
                 }
             }
+        }
 
-            // Copy button overlay — top-right of the bubble
-            AnimatedVisibility(
-                visible = showCopyButton,
-                enter = fadeIn() + scaleIn(),
-                exit = fadeOut() + scaleOut(),
-                modifier =
-                    Modifier
-                        .align(Alignment.TopEnd)
-                        .offset(x = (-8).dp, y = (-8).dp),
+        // Copy button overlay — top-right of the bubble
+        AnimatedVisibility(
+            visible = showCopyButton,
+            enter = fadeIn() + scaleIn(),
+            exit = fadeOut() + scaleOut(),
+            modifier =
+                Modifier
+                    .align(Alignment.TopEnd)
+                    .offset(x = (-8).dp, y = (-8).dp),
+        ) {
+            Surface(
+                // Studio: small 8 dp radius instead of full circle.
+                shape = RoundedCornerShape(8.dp),
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                shadowElevation = 6.dp,
             ) {
-                Surface(
-                    // Studio: small 8 dp radius instead of full circle.
-                    shape = RoundedCornerShape(8.dp),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                    shadowElevation = 6.dp,
+                IconButton(
+                    onClick = {
+                        scope.launch {
+                            clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(null, message.content)))
+                        }
+                        showCopyButton = false
+                    },
+                    modifier = Modifier.size(32.dp),
                 ) {
-                    IconButton(
-                        onClick = {
-                            scope.launch {
-                                clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(null, message.content)))
-                            }
-                            showCopyButton = false
-                        },
-                        modifier = Modifier.size(32.dp),
-                    ) {
-                        Icon(
-                            Icons.Filled.ContentCopy,
-                            contentDescription = stringResource(R.string.content_desc_copy),
-                            modifier = Modifier.size(16.dp),
-                            tint = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
+                    Icon(
+                        Icons.Filled.ContentCopy,
+                        contentDescription = stringResource(R.string.content_desc_copy),
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
                 }
             }
         }
