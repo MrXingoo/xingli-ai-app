@@ -66,7 +66,7 @@ object AuthManager {
     private val _useDynamicColorsFlow = MutableStateFlow<Boolean>(true)
     val useDynamicColorsFlow: StateFlow<Boolean> = _useDynamicColorsFlow.asStateFlow()
 
-    private val _themePresetFlow = MutableStateFlow<ThemePreset>(ThemePreset.DEFAULT)
+    private val _themePresetFlow = MutableStateFlow<ThemePreset>(ThemePreset.STUDIO)
     val themePresetFlow: StateFlow<ThemePreset> = _themePresetFlow.asStateFlow()
 
     private val _tokenFlow = MutableStateFlow<String?>(null)
@@ -128,7 +128,10 @@ object AuthManager {
                 store.stateFlow.collect { state ->
                     _themePreferenceFlow.value = state.themePreference
                     _useDynamicColorsFlow.value = state.useDynamicColors
-                    _themePresetFlow.value = state.themePreset
+                    // Legacy DEFAULT (old purple brand) now maps to STUDIO —
+                    // 师兄 wants the hermes-web-ui look as the house style.
+                    _themePresetFlow.value =
+                        if (state.themePreset == ThemePreset.DEFAULT) ThemePreset.STUDIO else state.themePreset
                     // B7 (Jul 08 2026, kanban t_470): keep cookie scope aligned with active profile.
                     syncCookieStoreForProfile(state.selectedProfileId)
                 }

@@ -14,7 +14,7 @@ data class ServerStoreState(
     val autoReconnect: Boolean = true,
     val themePreference: ThemePreference = ThemePreference.SYSTEM,
     val useDynamicColors: Boolean = true,
-    val themePreset: ThemePreset = ThemePreset.DEFAULT,
+    val themePreset: ThemePreset = ThemePreset.STUDIO,
     val connectionProfiles: List<ConnectionProfile> = emptyList(),
     val selectedProfileId: String? = null,
     val pinnedModels: List<PinnedModel> = emptyList(),

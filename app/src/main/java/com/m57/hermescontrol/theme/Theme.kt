@@ -33,13 +33,17 @@ import com.m57.hermescontrol.theme.presets.NeonNoirDarkColorScheme
 import com.m57.hermescontrol.theme.presets.NeonNoirDarkStatusColors
 import com.m57.hermescontrol.theme.presets.NeonNoirLightColorScheme
 import com.m57.hermescontrol.theme.presets.NeonNoirLightStatusColors
+import com.m57.hermescontrol.theme.presets.StudioDarkColorScheme
+import com.m57.hermescontrol.theme.presets.StudioDarkStatusColors
+import com.m57.hermescontrol.theme.presets.StudioLightColorScheme
+import com.m57.hermescontrol.theme.presets.StudioLightStatusColors
 import kotlinx.serialization.Serializable
 
 @Serializable
 enum class ThemePreference { SYSTEM, LIGHT, DARK }
 
 @Serializable
-enum class ThemePreset { DEFAULT, MONOCHROME, GRUVBOX, CATPPUCCIN, AMOLED, NEON_NOIR }
+enum class ThemePreset { DEFAULT, MONOCHROME, GRUVBOX, CATPPUCCIN, AMOLED, NEON_NOIR, STUDIO }
 
 val LocalThemePreference = compositionLocalOf { ThemePreference.SYSTEM }
 val LocalThemePreset = compositionLocalOf { ThemePreset.DEFAULT }
@@ -60,6 +64,7 @@ private fun resolveColorScheme(
     ThemePreset.CATPPUCCIN -> if (darkTheme) CatppuccinDarkColorScheme else CatppuccinLightColorScheme
     ThemePreset.AMOLED -> if (darkTheme) AmoledDarkColorScheme else AmoledLightColorScheme
     ThemePreset.NEON_NOIR -> if (darkTheme) NeonNoirDarkColorScheme else NeonNoirLightColorScheme
+    ThemePreset.STUDIO -> if (darkTheme) StudioDarkColorScheme else StudioLightColorScheme
 }
 
 /**
@@ -78,6 +83,7 @@ private fun resolveStatusColors(
     ThemePreset.CATPPUCCIN -> if (darkTheme) CatppuccinDarkStatusColors else CatppuccinLightStatusColors
     ThemePreset.AMOLED -> if (darkTheme) AmoledDarkStatusColors else AmoledLightStatusColors
     ThemePreset.NEON_NOIR -> if (darkTheme) NeonNoirDarkStatusColors else NeonNoirLightStatusColors
+    ThemePreset.STUDIO -> if (darkTheme) StudioDarkStatusColors else StudioLightStatusColors
 }
 
 @Composable
@@ -96,7 +102,9 @@ fun HermesControlTheme(
 
     val context = LocalContext.current
     val dynamicAvailable =
-        useDynamicColors && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+        // Studio preset is a faithful brand port — dynamic wallpaper colours
+        // would break its exact look, so it always uses the fixed palette.
+        useDynamicColors && themePreset != ThemePreset.STUDIO && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val colorScheme =
         if (dynamicAvailable) {
             if (darkTheme) {

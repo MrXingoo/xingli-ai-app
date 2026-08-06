@@ -119,7 +119,7 @@ internal fun AppearanceSection(
         Box(modifier = Modifier.fillMaxWidth()) {
             OutlinedButton(
                 onClick = { presetsExpanded = true },
-                enabled = !useDynamicColors,
+                enabled = !useDynamicColors || themePreset == ThemePreset.STUDIO,
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
@@ -130,6 +130,7 @@ internal fun AppearanceSection(
                         ThemePreset.CATPPUCCIN -> stringResource(R.string.theme_preset_catppuccin)
                         ThemePreset.AMOLED -> stringResource(R.string.theme_preset_amoled)
                         ThemePreset.NEON_NOIR -> stringResource(R.string.theme_preset_neon_noir)
+                        ThemePreset.STUDIO -> stringResource(R.string.theme_preset_studio)
                     },
                 )
             }
@@ -176,6 +177,12 @@ internal fun AppearanceSection(
                                     ThemePreset.NEON_NOIR -> {
                                         stringResource(
                                             R.string.theme_preset_neon_noir,
+                                        )
+                                    }
+
+                                    ThemePreset.STUDIO -> {
+                                        stringResource(
+                                            R.string.theme_preset_studio,
                                         )
                                     }
                                 },
