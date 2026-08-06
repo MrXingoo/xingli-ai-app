@@ -302,7 +302,8 @@ private fun UserBubble(
                         .offset(x = 8.dp, y = (-8).dp),
             ) {
                 Surface(
-                    shape = RoundedCornerShape(50),
+                    // Studio: small 8 dp radius instead of full circle.
+                    shape = RoundedCornerShape(8.dp),
                     color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
                     shadowElevation = 6.dp,
                 ) {
@@ -445,7 +446,8 @@ private fun AssistantBubble(
                         .offset(x = (-8).dp, y = (-8).dp),
             ) {
                 Surface(
-                    shape = RoundedCornerShape(50),
+                    // Studio: small 8 dp radius instead of full circle.
+                    shape = RoundedCornerShape(8.dp),
                     color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
                     shadowElevation = 6.dp,
                 ) {
@@ -2386,7 +2388,8 @@ private fun CopyButton(
         modifier = modifier,
     ) {
         Surface(
-            shape = RoundedCornerShape(50),
+            // Studio: small 8 dp radius instead of full circle.
+            shape = RoundedCornerShape(8.dp),
             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
             shadowElevation = 6.dp,
         ) {

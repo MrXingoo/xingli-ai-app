@@ -109,15 +109,16 @@ fun ChatInputBar(
                 Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 6.dp),
-            shape = RoundedCornerShape(20.dp),
+            // Studio style: small 8 dp radius, hairline border, near-flat.
+            shape = RoundedCornerShape(8.dp),
             color = MaterialTheme.colorScheme.surface,
             border =
                 BorderStroke(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                    color = MaterialTheme.colorScheme.outlineVariant,
                 ),
-            tonalElevation = 2.dp,
-            shadowElevation = 4.dp,
+            tonalElevation = 0.dp,
+            shadowElevation = 1.dp,
         ) {
             Column {
                 // Commands hidden from the suggestion menu — desktop/CLI-only and
@@ -240,7 +241,8 @@ fun ChatInputBar(
                         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
                         decorationBox = { innerTextField ->
                             Surface(
-                                shape = RoundedCornerShape(18.dp),
+                                // Studio: tight 6 dp radius field.
+                                shape = RoundedCornerShape(6.dp),
                                 border =
                                     BorderStroke(
                                         width = if (isFocused) 2.dp else 1.dp,
@@ -285,15 +287,17 @@ fun ChatInputBar(
                                             IconButton(
                                                 onClick = onSend,
                                                 enabled = canSend,
-                                                colors = IconButtonDefaults.filledTonalIconButtonColors(),
+                                                // Studio: solid ink button, white arrow.
+                                                colors = IconButtonDefaults.filledIconButtonColors(),
                                                 modifier =
                                                     Modifier
-                                                        .size(36.dp)
+                                                        .size(32.dp)
                                                         .testTag("send_button"),
                                             ) {
                                                 Icon(
                                                     imageVector = Icons.AutoMirrored.Filled.Send,
                                                     contentDescription = stringResource(R.string.chat_send_desc),
+                                                    modifier = Modifier.size(16.dp),
                                                 )
                                             }
                                         }
