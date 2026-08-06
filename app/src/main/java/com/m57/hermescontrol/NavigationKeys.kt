@@ -57,6 +57,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable data object AlistScreen : NavKey
 
+/** 配置 Tab —— 功能总入口页（原侧栏全部功能收拢至此）。 */
+@Serializable data object ConfigureTabScreen : NavKey
+
 // ── Settings drill-down sub-pages ──────────────────────────────────────
 
 @Serializable data object SettingsConnection : NavKey

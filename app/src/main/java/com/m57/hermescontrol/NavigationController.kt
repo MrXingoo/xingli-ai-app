@@ -18,14 +18,14 @@ object NavigationController {
     var backStack: NavBackStack<NavKey>? = null
     var pendingSessionId: String? = null
 
-    // Top-level primary screens (Chat, Skills, Cron, System, Settings)
+    // Top-level primary screens = the three bottom tabs (Chat / Alist / Configure).
+    // Switching tabs resets the back stack; everything else (all former drawer
+    // items) pushes on top of the Configure tab so Back returns to it.
     private val primaryScreens: MutableSet<NavKey> =
         mutableSetOf(
             ChatScreen,
-            SkillsScreen,
-            CronJobsScreen,
-            SystemScreen,
-            SettingsScreen,
+            AlistScreen,
+            ConfigureTabScreen,
         )
 
     /** Returns whether the given key is a primary top-level screen. */
