@@ -58,9 +58,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalConfiguration
@@ -83,9 +81,7 @@ import androidx.compose.ui.unit.sp
 import com.m57.hermescontrol.R
 import com.m57.hermescontrol.data.model.Attachment
 import com.m57.hermescontrol.data.remote.OkHttpProvider
-import com.m57.hermescontrol.theme.DarkOnSurface
 import com.m57.hermescontrol.theme.HermesStatusColors
-import com.m57.hermescontrol.theme.LightOnSurface
 import com.m57.hermescontrol.theme.LocalHermesStatusColors
 import com.m57.hermescontrol.theme.onColorFor
 import com.m57.hermescontrol.ui.chat.components.DiffViewCard
@@ -211,46 +207,17 @@ private fun UserBubble(
                 .padding(horizontal = 8.dp, vertical = 1.dp),
         contentAlignment = Alignment.CenterEnd,
     ) {
-        val gradientBrush =
-            Brush.linearGradient(
-                colors =
-                    listOf(
-                        MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.secondary,
-                    ),
-            )
-        val primary = MaterialTheme.colorScheme.primary
-        val secondary = MaterialTheme.colorScheme.secondary
-        val avgLuminance = (primary.luminance() + secondary.luminance()) / 2f
-        val userBubbleTextColor =
-            if (avgLuminance > 0.5f) {
-                if (MaterialTheme.colorScheme.onPrimary.luminance() < 0.5f) {
-                    MaterialTheme.colorScheme.onPrimary
-                } else {
-                    LightOnSurface
-                }
-            } else {
-                if (MaterialTheme.colorScheme.onPrimary.luminance() > 0.5f) {
-                    MaterialTheme.colorScheme.onPrimary
-                } else {
-                    DarkOnSurface
-                }
-            }
+        // 照 Hermes Studio：用户消息同款浅灰气泡（surfaceVariant）+ 10dp 圆角
+        val bubbleColor = MaterialTheme.colorScheme.surfaceVariant
+        val userBubbleTextColor = MaterialTheme.colorScheme.onSurfaceVariant
         Box {
             Surface(
                 modifier =
                     Modifier
                         .widthIn(max = maxWidth)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 16.dp,
-                                topEnd = 16.dp,
-                                bottomStart = 16.dp,
-                                bottomEnd = 4.dp,
-                            ),
-                        ).background(brush = gradientBrush)
+                        .clip(RoundedCornerShape(10.dp))
                         .testTag("chat_bubble_user"),
-                color = Color.Transparent,
+                color = bubbleColor,
                 tonalElevation = 0.dp,
             ) {
                 Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
@@ -283,16 +250,6 @@ private fun UserBubble(
                                     .padding(top = 2.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Text(
-                                text =
-                                    formatTimestamp(
-                                        message.timestamp,
-                                        DateFormat.is24HourFormat(LocalContext.current),
-                                    ),
-                                color = userBubbleTextColor.copy(alpha = 0.6f),
-                                style = MaterialTheme.typography.labelSmall,
-                            )
-                            Spacer(modifier = Modifier.width(2.dp))
                             IconButton(
                                 onClick = {
                                     scope.launch {
@@ -309,6 +266,16 @@ private fun UserBubble(
                                     tint = userBubbleTextColor.copy(alpha = 0.7f),
                                 )
                             }
+                            Spacer(modifier = Modifier.width(2.dp))
+                            Text(
+                                text =
+                                    formatTimestamp(
+                                        message.timestamp,
+                                        DateFormat.is24HourFormat(LocalContext.current),
+                                    ),
+                                color = userBubbleTextColor.copy(alpha = 0.6f),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
                         }
                     }
                 }
@@ -367,14 +334,8 @@ private fun AssistantBubble(
                         Modifier
                             .widthIn(max = maxWidth)
                             .animateContentSize()
-                            .clip(
-                                RoundedCornerShape(
-                                    topStart = 4.dp,
-                                    topEnd = 16.dp,
-                                    bottomStart = 16.dp,
-                                    bottomEnd = 16.dp,
-                                ),
-                            ).testTag("chat_bubble_assistant"),
+                            .clip(RoundedCornerShape(10.dp))
+                            .testTag("chat_bubble_assistant"),
                     color = bubbleColor,
                     border =
                         BorderStroke(
@@ -424,16 +385,6 @@ private fun AssistantBubble(
                                         .padding(top = 2.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
-                                Text(
-                                    text =
-                                        formatTimestamp(
-                                            message.timestamp,
-                                            DateFormat.is24HourFormat(LocalContext.current),
-                                        ),
-                                    color = textColor.copy(alpha = 0.5f),
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-                                Spacer(modifier = Modifier.width(2.dp))
                                 IconButton(
                                     onClick = {
                                         scope.launch {
@@ -454,6 +405,16 @@ private fun AssistantBubble(
                                         tint = textColor.copy(alpha = 0.6f),
                                     )
                                 }
+                                Spacer(modifier = Modifier.width(2.dp))
+                                Text(
+                                    text =
+                                        formatTimestamp(
+                                            message.timestamp,
+                                            DateFormat.is24HourFormat(LocalContext.current),
+                                        ),
+                                    color = textColor.copy(alpha = 0.5f),
+                                    style = MaterialTheme.typography.labelSmall,
+                                )
                             }
                         }
                     }
