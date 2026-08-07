@@ -179,13 +179,13 @@ private fun UserBubble(
 ) {
     val clipboard = LocalClipboard.current
     val scope = rememberCoroutineScope()
-    var showCopyButton by remember { mutableStateOf(false) }
+    var copied by remember { mutableStateOf(false) }
 
-    // Auto-dismiss copy button after 4 seconds
-    LaunchedEffect(showCopyButton) {
-        if (showCopyButton) {
-            delay(4000)
-            showCopyButton = false
+    // 复制成功反馈：短暂显示 ✓ 后复原
+    LaunchedEffect(copied) {
+        if (copied) {
+            delay(1500)
+            copied = false
         }
     }
 
@@ -208,7 +208,7 @@ private fun UserBubble(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 2.dp),
+                .padding(horizontal = 8.dp, vertical = 1.dp),
         contentAlignment = Alignment.CenterEnd,
     ) {
         val gradientBrush =
@@ -249,17 +249,11 @@ private fun UserBubble(
                                 bottomEnd = 4.dp,
                             ),
                         ).background(brush = gradientBrush)
-                        .testTag("chat_bubble_user")
-                        .clickable(
-                            role = Role.Button,
-                            onClick = {
-                                showCopyButton = true
-                            },
-                        ),
+                        .testTag("chat_bubble_user"),
                 color = Color.Transparent,
                 tonalElevation = 0.dp,
             ) {
-                Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)) {
+                Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
                     SelectionContainer {
                         Text(
                             text = highlightedText,
@@ -280,51 +274,42 @@ private fun UserBubble(
                             Spacer(modifier = Modifier.height(4.dp))
                         }
                     }
+                    // 底部功能区：时间戳 + 复制（照 Hermes Studio 布局）
                     if (!message.isStreaming) {
-                        Text(
-                            text = formatTimestamp(message.timestamp, DateFormat.is24HourFormat(LocalContext.current)),
-                            color = userBubbleTextColor.copy(alpha = 0.6f),
-                            style = MaterialTheme.typography.labelSmall,
+                        Row(
                             modifier =
                                 Modifier
                                     .align(Alignment.End)
-                                    .padding(top = 4.dp),
-                        )
-                    }
-                }
-            }
-
-            // Copy button overlay — top-right of the bubble
-            AnimatedVisibility(
-                visible = showCopyButton,
-                enter = fadeIn() + scaleIn(),
-                exit = fadeOut() + scaleOut(),
-                modifier =
-                    Modifier
-                        .align(Alignment.TopEnd)
-                        .offset(x = 8.dp, y = (-8).dp),
-            ) {
-                Surface(
-                    // Studio: small 8 dp radius instead of full circle.
-                    shape = RoundedCornerShape(8.dp),
-                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                    shadowElevation = 6.dp,
-                ) {
-                    IconButton(
-                        onClick = {
-                            scope.launch {
-                                clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(null, message.content)))
+                                    .padding(top = 2.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text =
+                                    formatTimestamp(
+                                        message.timestamp,
+                                        DateFormat.is24HourFormat(LocalContext.current),
+                                    ),
+                                color = userBubbleTextColor.copy(alpha = 0.6f),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
+                            Spacer(modifier = Modifier.width(2.dp))
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(null, message.content)))
+                                    }
+                                    copied = true
+                                },
+                                modifier = Modifier.size(20.dp),
+                            ) {
+                                Icon(
+                                    imageVector = if (copied) Icons.Filled.Check else Icons.Filled.ContentCopy,
+                                    contentDescription = stringResource(R.string.content_desc_copy),
+                                    modifier = Modifier.size(12.dp),
+                                    tint = userBubbleTextColor.copy(alpha = 0.7f),
+                                )
                             }
-                            showCopyButton = false
-                        },
-                        modifier = Modifier.size(32.dp),
-                    ) {
-                        Icon(
-                            Icons.Filled.ContentCopy,
-                            contentDescription = stringResource(R.string.content_desc_copy),
-                            modifier = Modifier.size(16.dp),
-                            tint = MaterialTheme.colorScheme.onSurface,
-                        )
+                        }
                     }
                 }
             }
@@ -347,13 +332,13 @@ private fun AssistantBubble(
     val textColor = MaterialTheme.colorScheme.onSurfaceVariant
     val clipboard = LocalClipboard.current
     val scope = rememberCoroutineScope()
-    var showCopyButton by remember { mutableStateOf(false) }
+    var copied by remember { mutableStateOf(false) }
 
-    // Auto-dismiss copy button after 4 seconds
-    LaunchedEffect(showCopyButton) {
-        if (showCopyButton) {
-            delay(4000)
-            showCopyButton = false
+    // 复制成功反馈：短暂显示 ✓ 后复原
+    LaunchedEffect(copied) {
+        if (copied) {
+            delay(1500)
+            copied = false
         }
     }
 
@@ -361,7 +346,7 @@ private fun AssistantBubble(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 2.dp),
+                .padding(horizontal = 8.dp, vertical = 1.dp),
         contentAlignment = Alignment.CenterStart,
     ) {
         Row(verticalAlignment = Alignment.Top) {
@@ -371,7 +356,7 @@ private fun AssistantBubble(
                 contentDescription = null,
                 modifier =
                     Modifier
-                        .size(28.dp)
+                        .size(24.dp)
                         .clip(CircleShape)
                         .padding(top = 2.dp),
             )
@@ -389,13 +374,7 @@ private fun AssistantBubble(
                                     bottomStart = 16.dp,
                                     bottomEnd = 16.dp,
                                 ),
-                            ).testTag("chat_bubble_assistant")
-                            .clickable(
-                                role = Role.Button,
-                                onClick = {
-                                    showCopyButton = true
-                                },
-                            ),
+                            ).testTag("chat_bubble_assistant"),
                     color = bubbleColor,
                     border =
                         BorderStroke(
@@ -404,7 +383,7 @@ private fun AssistantBubble(
                         ),
                     tonalElevation = 1.dp,
                 ) {
-                    Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)) {
+                    Column(modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
                         if (message.reasoningText.isNotBlank()) {
                             ReasoningCard(
                                 reasoningText = message.reasoningText,
@@ -436,57 +415,48 @@ private fun AssistantBubble(
                                 Spacer(modifier = Modifier.height(4.dp))
                             }
                         }
+                        // 底部功能区：时间戳 + 复制（照 Hermes Studio 布局）
                         if (!message.isStreaming) {
-                            Text(
-                                text =
-                                    formatTimestamp(
-                                        message.timestamp,
-                                        DateFormat.is24HourFormat(LocalContext.current),
-                                    ),
-                                color = textColor.copy(alpha = 0.5f),
-                                style = MaterialTheme.typography.labelSmall,
+                            Row(
                                 modifier =
                                     Modifier
                                         .align(Alignment.End)
-                                        .padding(top = 4.dp),
-                            )
+                                        .padding(top = 2.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text =
+                                        formatTimestamp(
+                                            message.timestamp,
+                                            DateFormat.is24HourFormat(LocalContext.current),
+                                        ),
+                                    color = textColor.copy(alpha = 0.5f),
+                                    style = MaterialTheme.typography.labelSmall,
+                                )
+                                Spacer(modifier = Modifier.width(2.dp))
+                                IconButton(
+                                    onClick = {
+                                        scope.launch {
+                                            clipboard.setClipEntry(
+                                                ClipEntry(
+                                                    ClipData.newPlainText(null, message.content),
+                                                ),
+                                            )
+                                        }
+                                        copied = true
+                                    },
+                                    modifier = Modifier.size(20.dp),
+                                ) {
+                                    Icon(
+                                        imageVector = if (copied) Icons.Filled.Check else Icons.Filled.ContentCopy,
+                                        contentDescription = stringResource(R.string.content_desc_copy),
+                                        modifier = Modifier.size(12.dp),
+                                        tint = textColor.copy(alpha = 0.6f),
+                                    )
+                                }
+                            }
                         }
                     }
-                }
-            }
-        }
-
-        // Copy button overlay — top-right of the bubble
-        AnimatedVisibility(
-            visible = showCopyButton,
-            enter = fadeIn() + scaleIn(),
-            exit = fadeOut() + scaleOut(),
-            modifier =
-                Modifier
-                    .align(Alignment.TopEnd)
-                    .offset(x = (-8).dp, y = (-8).dp),
-        ) {
-            Surface(
-                // Studio: small 8 dp radius instead of full circle.
-                shape = RoundedCornerShape(8.dp),
-                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
-                shadowElevation = 6.dp,
-            ) {
-                IconButton(
-                    onClick = {
-                        scope.launch {
-                            clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(null, message.content)))
-                        }
-                        showCopyButton = false
-                    },
-                    modifier = Modifier.size(32.dp),
-                ) {
-                    Icon(
-                        Icons.Filled.ContentCopy,
-                        contentDescription = stringResource(R.string.content_desc_copy),
-                        modifier = Modifier.size(16.dp),
-                        tint = MaterialTheme.colorScheme.onSurface,
-                    )
                 }
             }
         }
