@@ -109,8 +109,8 @@ fun ChatInputBar(
                 Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 6.dp),
-            // Studio style: small 8 dp radius, hairline border, near-flat.
-            shape = RoundedCornerShape(8.dp),
+            // Studio style: 16dp 大圆角 + hairline 边框 + 柔和阴影（照 input-wrapper）
+            shape = RoundedCornerShape(16.dp),
             color = MaterialTheme.colorScheme.surface,
             border =
                 BorderStroke(
@@ -118,7 +118,7 @@ fun ChatInputBar(
                     color = MaterialTheme.colorScheme.outlineVariant,
                 ),
             tonalElevation = 0.dp,
-            shadowElevation = 1.dp,
+            shadowElevation = 3.dp,
         ) {
             Column {
                 // Commands hidden from the suggestion menu — desktop/CLI-only and

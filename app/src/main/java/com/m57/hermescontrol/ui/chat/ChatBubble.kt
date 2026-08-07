@@ -204,7 +204,7 @@ private fun UserBubble(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 1.dp),
+                .padding(horizontal = 8.dp, vertical = 2.dp),
         contentAlignment = Alignment.CenterEnd,
     ) {
         // 照 Hermes Studio：用户消息同款浅灰气泡（surfaceVariant）+ 10dp 圆角
@@ -313,7 +313,7 @@ private fun AssistantBubble(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 1.dp),
+                .padding(horizontal = 8.dp, vertical = 2.dp),
         contentAlignment = Alignment.CenterStart,
     ) {
         Row(verticalAlignment = Alignment.Top) {
