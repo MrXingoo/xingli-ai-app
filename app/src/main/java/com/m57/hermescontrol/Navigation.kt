@@ -16,7 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -151,15 +150,14 @@ fun MainNavigation(sessionId: String? = null) {
         contentWindowInsets = WindowInsets.navigationBars,
         bottomBar = {
             NavigationBar(
-                modifier = Modifier.height(72.dp),
+                modifier = Modifier.height(56.dp),
                 containerColor = MaterialTheme.colorScheme.surface,
             ) {
                 MainTab.entries.forEach { tab ->
                     NavigationBarItem(
                         selected = currentTabKey == tab.key,
                         onClick = { NavigationController.navigateToTab(tab.key) },
-                        icon = { Icon(tab.icon, contentDescription = null) },
-                        label = { Text(stringResource(tab.labelRes)) },
+                        icon = { Icon(tab.icon, contentDescription = stringResource(tab.labelRes)) },
                     )
                 }
             }
