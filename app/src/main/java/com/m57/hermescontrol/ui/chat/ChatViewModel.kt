@@ -839,8 +839,6 @@ class ChatViewModel(
         val attachments = _uiState.value.pendingAttachments.toList()
         clearAttachments()
 
-        val wasStreaming = _uiState.value.isAgentTyping
-
         val userMessage =
             ChatMessage(
                 role = MessageRole.USER,
@@ -933,24 +931,16 @@ class ChatViewModel(
                         if (text.isNotBlank()) "\n\n$text" else ""
                 }
 
-            // While a turn is actively streaming and this is a plain text prompt
-            // (no attachments — session.redirect carries text only), steer the
-            // in-flight turn via session.redirect instead of queueing a fresh
-            // prompt.submit. The backend rewrites the live turn when it can, or
-            // queues the correction as the next turn otherwise (issue #710).
-            if (wasStreaming && attachments.isEmpty()) {
-                wsClient.sendRedirect(
-                    agentSessionId,
-                    fullText,
-                    onSent = { id -> trackRequest(id, WsMethods.SESSION_REDIRECT) },
-                )
-            } else {
-                wsClient.sendMessage(
-                    agentSessionId,
-                    fullText,
-                    onSent = { id -> trackRequest(id, WsMethods.PROMPT_SUBMIT) },
-                )
-            }
+            // Always submit via prompt.submit. The backend (tui_gateway
+            // server.py) queues a mid-turn prompt — interrupting the live
+            // turn — as the next turn, so the upstream session.redirect path
+            // is unnecessary and errors on Dashboards that don't register it
+            // (JsonRpcError -32601, unknown method).
+            wsClient.sendMessage(
+                agentSessionId,
+                fullText,
+                onSent = { id -> trackRequest(id, WsMethods.PROMPT_SUBMIT) },
+            )
         }
     }
 
