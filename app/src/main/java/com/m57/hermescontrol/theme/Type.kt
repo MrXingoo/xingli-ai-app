@@ -2,9 +2,23 @@ package com.m57.hermescontrol.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.m57.hermescontrol.R
+
+/**
+ * Maple Mono NL（无连字·中文子集化版）— APP 全局字体。
+ * GB2312 全量 6763 汉字 + 符号, 日常中文显示不乱码, 中英文 2:1 对齐。
+ */
+val MapleMonoNL =
+    FontFamily(
+        Font(R.font.maplemononl_regular, FontWeight.Normal),
+        Font(R.font.maplemononl_medium, FontWeight.Medium),
+        Font(R.font.maplemononl_semibold, FontWeight.SemiBold),
+        Font(R.font.maplemononl_bold, FontWeight.Bold),
+    )
 
 /**
  * Full Material 3 type hierarchy — every style explicitly tuned so the
@@ -18,7 +32,7 @@ val Typography =
         // Display — hero numbers, big stats
         displayLarge =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Bold,
                 fontSize = 44.sp,
                 lineHeight = 52.sp,
@@ -26,7 +40,7 @@ val Typography =
             ),
         displayMedium =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Bold,
                 fontSize = 36.sp,
                 lineHeight = 44.sp,
@@ -34,7 +48,7 @@ val Typography =
             ),
         displaySmall =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 30.sp,
                 lineHeight = 38.sp,
@@ -43,7 +57,7 @@ val Typography =
         // Headline — empty-state titles, screen intros
         headlineLarge =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 28.sp,
                 lineHeight = 34.sp,
@@ -51,7 +65,7 @@ val Typography =
             ),
         headlineMedium =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 24.sp,
                 lineHeight = 30.sp,
@@ -59,7 +73,7 @@ val Typography =
             ),
         headlineSmall =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp,
                 lineHeight = 26.sp,
@@ -68,7 +82,7 @@ val Typography =
         // Title — TopAppBar, card headings
         titleLarge =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp,
                 lineHeight = 26.sp,
@@ -76,7 +90,7 @@ val Typography =
             ),
         titleMedium =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
                 lineHeight = 22.sp,
@@ -84,7 +98,7 @@ val Typography =
             ),
         titleSmall =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Medium,
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
@@ -93,7 +107,7 @@ val Typography =
         // Body — primary reading
         bodyLarge =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 lineHeight = 24.sp,
@@ -101,7 +115,7 @@ val Typography =
             ),
         bodyMedium =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Normal,
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
@@ -109,7 +123,7 @@ val Typography =
             ),
         bodySmall =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
                 lineHeight = 16.sp,
@@ -118,7 +132,7 @@ val Typography =
         // Label — buttons, chips, captions
         labelLarge =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 14.sp,
                 lineHeight = 20.sp,
@@ -126,7 +140,7 @@ val Typography =
             ),
         labelMedium =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Medium,
                 fontSize = 12.sp,
                 lineHeight = 16.sp,
@@ -134,7 +148,7 @@ val Typography =
             ),
         labelSmall =
             TextStyle(
-                fontFamily = FontFamily.Default,
+                fontFamily = MapleMonoNL,
                 fontWeight = FontWeight.Medium,
                 fontSize = 11.sp,
                 lineHeight = 16.sp,
