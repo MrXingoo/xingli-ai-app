@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -23,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
@@ -82,7 +84,14 @@ private fun appEntryProvider(
 
     ScreenRegistry.ALL_SCREENS.forEach { screen ->
         addEntryProvider(clazz = screen.key::class) {
-            screen.content(sessionId, openDrawer)
+            // 会话界面 ☰ 打开对话历史；其他页面 ☰ 统一去配置 Tab。
+            val openMenu =
+                if (screen.key == ChatScreen) {
+                    { NavigationController.navigateTo(HistoryScreen) }
+                } else {
+                    openDrawer
+                }
+            screen.content(sessionId, openMenu)
         }
     }
 
@@ -141,7 +150,10 @@ fun MainNavigation(sessionId: String? = null) {
     Scaffold(
         contentWindowInsets = WindowInsets.navigationBars,
         bottomBar = {
-            NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
+            NavigationBar(
+                modifier = Modifier.height(72.dp),
+                containerColor = MaterialTheme.colorScheme.surface,
+            ) {
                 MainTab.entries.forEach { tab ->
                     NavigationBarItem(
                         selected = currentTabKey == tab.key,

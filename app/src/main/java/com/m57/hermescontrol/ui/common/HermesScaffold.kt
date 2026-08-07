@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -34,6 +35,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.m57.hermescontrol.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -164,6 +166,8 @@ fun HermesScaffold(
         snackbarHost = { snackbarHost() },
         topBar = {
             TopAppBar(
+                // 压缩顶部占用：总高 64dp（含状态栏 inset），内容区仍是标准 40dp
+                modifier = Modifier.height(64.dp),
                 title = title,
                 navigationIcon = {
                     when (val icon = navigationIcon) {
