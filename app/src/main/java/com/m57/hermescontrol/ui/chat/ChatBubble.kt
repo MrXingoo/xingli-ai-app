@@ -2071,8 +2071,19 @@ private fun ToolBubble(
                         .animateContentSize()
                         .padding(horizontal = 10.dp, vertical = 6.dp),
             ) {
-                // ── Header row: icon + tool name ──
-                HeaderRow(message, config, contentColor, statusColors)
+                // ── Header row: icon + tool name + timestamp (compact, 1 line) ──
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    HeaderRow(message, config, contentColor, statusColors)
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = formatTimestamp(message.timestamp, DateFormat.is24HourFormat(LocalContext.current)),
+                        color = contentColor.copy(alpha = 0.5f),
+                        style = MaterialTheme.typography.labelSmall,
+                    )
+                }
 
                 // ── Tool progress preview (tool.progress) ──
                 if (message.toolStatus == ToolStatus.RUNNING && !message.progressPreview.isNullOrEmpty()) {
@@ -2096,25 +2107,25 @@ private fun ToolBubble(
                     SecurityRiskChip(riskData, contentColor)
                 }
 
-                // ── Summary line (always visible when collapsed) ──
-                if (!expanded && parsed?.summaryText != null) {
-                    Text(
-                        text = parsed.summaryText,
-                        style =
-                            MaterialTheme.typography.bodySmall.copy(
-                                color = contentColor.copy(alpha = 0.7f),
-                                fontFamily = FontFamily.Monospace,
-                                fontSize = 11.sp,
-                            ),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.padding(top = 4.dp, start = 22.dp),
-                    )
-                }
-
                 // ── Expanded content ──
                 if (expanded) {
                     Spacer(modifier = Modifier.height(6.dp))
+
+                    // Summary line shown only when expanded (keeps collapsed chip to 1 line)
+                    if (parsed?.summaryText != null) {
+                        Text(
+                            text = parsed.summaryText,
+                            style =
+                                MaterialTheme.typography.bodySmall.copy(
+                                    color = contentColor.copy(alpha = 0.7f),
+                                    fontFamily = FontFamily.Monospace,
+                                    fontSize = 11.sp,
+                                ),
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(top = 4.dp, start = 22.dp),
+                        )
+                    }
 
                     if (showRawJson) {
                         // Raw JSON view — selectable + copy button
@@ -2210,14 +2221,6 @@ private fun ToolBubble(
                         }
                     }
                 }
-
-                // ── Timestamp ──
-                Text(
-                    text = formatTimestamp(message.timestamp, DateFormat.is24HourFormat(LocalContext.current)),
-                    color = contentColor.copy(alpha = 0.5f),
-                    style = MaterialTheme.typography.labelSmall,
-                    modifier = Modifier.align(Alignment.End).padding(top = 4.dp),
-                )
             }
         }
     }
