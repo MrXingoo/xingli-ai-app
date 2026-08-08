@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -869,15 +870,21 @@ private fun SessionCard(
                     onClick = onCardClick,
                     onLongClick = onCardLongClick,
                 ),
+        // 照 Hermes Studio：条目透明底 + 选中态淡灰 rgba(51,51,51,0.12) + 6px 圆角
+        shape = RoundedCornerShape(6.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         colors =
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                containerColor =
+                    if (isSelected) {
+                        Color(0x1F333333)
+                    } else {
+                        Color.Transparent
+                    },
             ),
         border =
             if (isActive && !isSelecting) {
                 BorderStroke(2.dp, statusColors.success)
-            } else if (isSelected) {
-                BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
             } else {
                 null
             },
@@ -1015,13 +1022,21 @@ private fun SearchResultCard(
                     onClick = onCardClick,
                     onLongClick = onCardLongClick,
                 ),
+        // 照 Hermes Studio：条目透明底 + 选中态淡灰 rgba(51,51,51,0.12) + 6px 圆角
+        shape = RoundedCornerShape(6.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         colors =
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                containerColor =
+                    if (isSelected) {
+                        Color(0x1F333333)
+                    } else {
+                        Color.Transparent
+                    },
             ),
         border =
             if (isSelected) {
-                BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+                BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f))
             } else {
                 null
             },

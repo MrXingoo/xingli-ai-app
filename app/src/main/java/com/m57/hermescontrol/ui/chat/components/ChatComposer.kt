@@ -115,7 +115,7 @@ fun ChatInputBar(
             border =
                 BorderStroke(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant,
+                    color = MaterialTheme.colorScheme.outline.copy(alpha = 0.32f),
                 ),
             tonalElevation = 0.dp,
             shadowElevation = 3.dp,

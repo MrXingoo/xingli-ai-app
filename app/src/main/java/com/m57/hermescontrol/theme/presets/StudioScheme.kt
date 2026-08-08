@@ -13,13 +13,11 @@ import com.m57.hermescontrol.theme.HermesStatusColors
  * feel 师兄 likes.
  */
 
-// ── Light (primary look — Studio is a light UI) ──────────────────────────
-
-private val StudioLightBackground = Color(0xFFF5F6F8)
+private val StudioLightBackground = Color(0xFFFAFAFA)
 private val StudioLightOnBackground = Color(0xFF1E293B)
 private val StudioLightSurface = Color(0xFFFFFFFF)
 private val StudioLightOnSurface = Color(0xFF1E293B)
-private val StudioLightSurfaceVariant = Color(0xFFEBEEF5)
+private val StudioLightSurfaceVariant = Color(0xFFF5F5F5)
 private val StudioLightOnSurfaceVariant = Color(0xFF6B7280)
 private val StudioLightSurfaceContainerLowest = Color(0xFFFFFFFF)
 private val StudioLightSurfaceContainerLow = Color(0xFFFAFAFB)
